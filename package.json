@@ -1,0 +1,8 @@
+{
+	"name": "travel_guide",
+	"main": "./html/index.html",
+	"window": {
+		"width": 1000,
+		"height": 700
+	}
+}
