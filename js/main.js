@@ -35,7 +35,11 @@ function initMap() {
 
 function onMapClick(event) {
 	var popup = L.popup();
-	popup.setLatLng(event.latlng).setContent("Click on Map!").openOn(map);
+	popup.setLatLng(event.latlng)
+		.setContent(guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, function(item) {
+			locService.addLocation(item);
+		}))
+		.openOn(map);
 }
 
 function createMarkers() {

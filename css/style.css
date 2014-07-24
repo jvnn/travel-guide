@@ -2,6 +2,67 @@
   height: 640px;
 }
 
+.clearfix:after {
+  content:"";
+  display:table;
+  clear:both;
+}
+
 .small-summary {
-  
+
+}
+
+.name-input, .description-input, .tags-input {
+  width: 200px;
+  background-color: #faf5fa;
+  border: 1px solid #dadada;
+  border-radius: 2px;
+  font-size: 12px;
+  font-family: sherif;
+  padding: 3px;
+}
+
+.description-input {
+  resize: none;
+}
+
+.input-label {
+  font-family: sans;
+  font-size: 10px;
+  font-weight: lighter;
+  margin: 8px 0 4px 6px;
+}
+
+.location-field {
+  margin: 8px;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.input-controls {
+  width: 180px;
+  margin: 10px auto;
+}
+
+.input-cancel, .input-accept {
+  width: 60px;
+  height: 32px;
+  border: 1px solid #dadada;
+  border-radius: 6px;
+}
+
+.input-cancel > img, .input-accept > img {
+  width: 20px;
+  height: 20px;
+  margin: 6px auto;
+  display: block;
+}
+
+.input-cancel {
+  float: left;
+}
+
+.input-accept {
+  float: right;
 }
