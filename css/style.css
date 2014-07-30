@@ -45,28 +45,43 @@
   margin: 10px auto;
 }
 
-.input-cancel, .input-accept {
+.button {
   width: 60px;
   height: 32px;
   border: 1px solid #dadada;
   border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
 }
 
-.input-cancel > img, .input-accept > img {
+.button > img {
   width: 20px;
   height: 20px;
   margin: 6px auto;
   display: block;
 }
 
-.input-cancel {
+.button:hover {
+  border: 1px solid #a0a0a0;
+}
+
+.input-cancel, .input-delete {
   float: left;
 }
 
-.input-accept {
+.input-accept, .input-confirmation {
   float: right;
 }
 
-.input-accept:hover {
-  border: 1px solid #a0a0a0;
+.input-delete.confirming {
+  background: #e0e0e0;
+  cursor: auto;
+}
+
+.input-confirmation {
+  visibility: hidden;
+}
+
+.input-confirmation.confirming {
+  visibility: visible;
 }

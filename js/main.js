@@ -54,7 +54,10 @@ function createMarker(item) {
 		}
 
 		if (marker) {
-			marker.bindPopup(guiService.getSmallSummary(item));
+			marker.bindPopup(guiService.getSmallSummary(item, function() {
+				locService.removeLocation(item);
+				map.removeLayer(marker);
+			}));
 		}
 	}
 }
