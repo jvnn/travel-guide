@@ -66,3 +66,7 @@
 .input-accept {
   float: right;
 }
+
+.input-accept:hover {
+  border: 1px solid #a0a0a0;
+}

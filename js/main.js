@@ -1,23 +1,10 @@
-var fs = require('fs');
 var locService = require('LocationService.js');
 var guiService = require('GuiService.js');
 
 var map = null;
+var currentPopupData = null;
 
-fs.readFile('json/data.json', 'utf-8', function(error, contents) {
-	if (error == null) {
-		parseData(contents);
-		initMap();
-	} else {
-		console.log("Couldn't read data file: " + error);
-	}
-});
-
-
-function parseData(contents) {
-	var data = JSON.parse(contents);
-	locService.setData(data);
-}
+locService.readData('json/data.json', initMap);
 
 function initMap() {
 	var centerPoint = locService.meanLocation();
@@ -35,34 +22,56 @@ function initMap() {
 
 function onMapClick(event) {
 	var popup = L.popup();
+
+	currentPopupData = guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, "addNewItem()");
 	popup.setLatLng(event.latlng)
-		.setContent(guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, function(item) {
-			locService.addLocation(item);
-		}))
+		.setContent(currentPopupData.html)
 		.openOn(map);
+	currentPopupData.popup = popup;
 }
 
 function createMarkers() {
 	items = locService.query();
 	items.forEach(function(item) {
-		var loc = locService.getLocation(item);
-		if (loc) {
-			var marker = null;
-			if (loc.radius) {
-				var radiusMeters = locService.convertTo(loc.radius, "m");
-				console.log(radiusMeters);
-				marker = L.circle([loc.lat, loc.lon], radiusMeters, {
-					color: '#30f',
-    			fillColor: '#00f',
-    			fillOpacity: 0.1
-				}).addTo(map);
-			} else {
-				marker = L.marker([loc.lat, loc.lon]).addTo(map);
-			}
-
-			if (marker) {
-				marker.bindPopup(guiService.getSmallSummary(item));
-			}
-		}
+		createMarker(item);
 	});
+}
+
+function createMarker(item) {
+	var loc = locService.getLocation(item);
+	if (loc) {
+		var marker = null;
+		if (loc.radius) {
+			var radiusMeters = locService.convertTo(loc.radius, "m");
+			console.log(radiusMeters);
+			marker = L.circle([loc.lat, loc.lon], radiusMeters, {
+				color: '#30f',
+				fillColor: '#00f',
+				fillOpacity: 0.1
+			}).addTo(map);
+		} else {
+			marker = L.marker([loc.lat, loc.lon]).addTo(map);
+		}
+
+		if (marker) {
+			marker.bindPopup(guiService.getSmallSummary(item));
+		}
+	}
+}
+
+function addNewItem() {
+	var name = currentPopupData.dataGetter.getName(document);
+	var description = currentPopupData.dataGetter.getDescription(document);
+	var tagString = currentPopupData.dataGetter.getTags(document);
+	var tags = [];
+	if (tagString != null) {
+		var tags = tagString.split(',');
+	}
+	var location = currentPopupData.dataGetter.getLocation();
+
+	var newItem = locService.addLocation(name, description, tags, location);
+	if (newItem) {
+		createMarker(newItem);
+	}
+	map.closePopup(currentPopupData.popup);
 }
