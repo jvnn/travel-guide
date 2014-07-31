@@ -80,6 +80,8 @@
 
 .input-confirmation {
   visibility: hidden;
+  padding-top: 6px;
+  box-sizing: border-box;
 }
 
 .input-confirmation.confirming {
