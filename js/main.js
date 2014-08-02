@@ -66,6 +66,10 @@ function createMarker(item) {
 			marker.bindPopup(guiService.getSmallSummary(item, function() {
 				locService.removeLocation(item);
 				map.removeLayer(marker);
+			}, function(newDescription) {
+				newItem = locService.updateLocation(item, newDescription);
+				map.removeLayer(marker);
+				createMarker(newItem);
 			}));
 		}
 	}

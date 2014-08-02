@@ -78,12 +78,16 @@
   cursor: auto;
 }
 
+.input-accept.confirming {
+  display: none;
+}
+
 .input-confirmation {
-  visibility: hidden;
+  display: none;
   padding-top: 6px;
   box-sizing: border-box;
 }
 
 .input-confirmation.confirming {
-  visibility: visible;
+  display: block;
 }
