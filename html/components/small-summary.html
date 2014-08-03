@@ -1,0 +1,21 @@
+<div class="small-summary">
+  @!if <b>@!text</b> @!endif
+  @!if
+  <br>
+  <textarea id="description-small-summary" rows="4" class="description-input">@!text</textarea>
+  @!endif
+
+  <div class="input-controls clearfix">
+    <div id="input-delete-small-summary" class="button input-delete" onClick="@!callback">
+      <img src="../img/delete.svg" />
+    </div>
+
+    <div id="input-confirmation-small-summary" class="button input-confirmation" onClick="@!callback">
+      Sure..?
+    </div>
+
+    <div id="input-save-small-summary" class="button input-accept" onClick="@!callback">
+      <img src="../img/accept.svg" />
+    </div>
+  </div>
+</div>
