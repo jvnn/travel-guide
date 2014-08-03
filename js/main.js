@@ -19,12 +19,14 @@ function initMap() {
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 	}).addTo(map);
-	map.on('click', onMapClick);
+	map.on('dblclick', onMapClick);
 
 	createMarkers();
 }
 
 function onMapClick(event) {
+	event.originalEvent.preventDefault();
+	event.originalEvent.stopPropagation();
 	var popup = L.popup();
 
 	currentPopupData = guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, "addNewItem()");
@@ -32,6 +34,7 @@ function onMapClick(event) {
 		.setContent(currentPopupData.html)
 		.openOn(map);
 	currentPopupData.popup = popup;
+	return false;
 }
 
 function createMarkers() {
