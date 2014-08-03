@@ -2,7 +2,6 @@ var locService = require('LocationService.js');
 var guiService = require('GuiService.js');
 
 var map = null;
-var currentPopupData = null;
 
 window.onresize = function() {
 	document.getElementById('map').style.height = window.innerHeight - 20 + "px";
@@ -29,11 +28,22 @@ function onMapClick(event) {
 	event.originalEvent.stopPropagation();
 	var popup = L.popup();
 
-	currentPopupData = guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, "addNewItem()");
+	popupHtml = guiService.getCreateNewPopup(event.latlng.lat, event.latlng.lng, function(name, description, tagString) {
+			var tags = [];
+			if (tagString != null) {
+				var tags = tagString.split(',');
+			}
+			var location = {lat: event.latlng.lat, lon: event.latlng.lng};
+			var newItem = locService.addLocation(name, description, tags, location);
+			if (newItem) {
+				createMarker(newItem);
+			}
+			map.closePopup(popup);
+	});
+
 	popup.setLatLng(event.latlng)
-		.setContent(currentPopupData.html)
+		.setContent(popupHtml)
 		.openOn(map);
-	currentPopupData.popup = popup;
 	return false;
 }
 
@@ -76,23 +86,6 @@ function createMarker(item) {
 			}));
 		}
 	}
-}
-
-function addNewItem() {
-	var name = currentPopupData.dataGetter.getName(document);
-	var description = currentPopupData.dataGetter.getDescription(document);
-	var tagString = currentPopupData.dataGetter.getTags(document);
-	var tags = [];
-	if (tagString != null) {
-		var tags = tagString.split(',');
-	}
-	var location = currentPopupData.dataGetter.getLocation();
-
-	var newItem = locService.addLocation(name, description, tags, location);
-	if (newItem) {
-		createMarker(newItem);
-	}
-	map.closePopup(currentPopupData.popup);
 }
 
 
